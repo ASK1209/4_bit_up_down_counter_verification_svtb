@@ -136,9 +136,9 @@ This project demonstrates several important **Design Verification concepts**:
 * Functional coverage analysis
 
 ---
-
 ## 👩‍💻 Author
-**Ahalya S Kumar** 
-Design Verification Engineer  
-SystemVerilog | SVA | Functional Coverage | UVM (Learning)
+
+**Ahalya S Kumar**
+Design Verification Engineer
+SystemVerilog | Assertions | Functional Coverage | UVM (Learning)
 
