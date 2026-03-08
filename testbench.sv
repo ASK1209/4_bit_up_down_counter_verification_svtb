@@ -1,17 +1,19 @@
 // Code your testbench here
-// or browse Examples
+// Interface
 interface counter_if(input logic clk);
     logic rst;
     logic enable;
     logic up_down;
     logic [3:0] count;
 endinterface
+//Transaction class
 class transaction;
   	logic rst;
     rand bit enable;
     rand bit up_down;
   bit[3:0] count;
 endclass
+// Generator class
 class generator;
 
     mailbox #(transaction) gen2drv;
@@ -31,6 +33,7 @@ class generator;
     endtask
 
 endclass
+//Driver class
 class driver;
 
     virtual counter_if vif;
@@ -55,6 +58,7 @@ class driver;
     endtask
 
 endclass
+//Monitor class
 class monitor;
 
     virtual counter_if vif;
@@ -76,13 +80,10 @@ class monitor;
             tr.count   = vif.count;
 
           mon2sb1.put(tr);
-		  //cg1.sample();
-
-            //mon2sb.put(vif.count);
         end
     endtask
 endclass
-
+//Scoreboard class
 class scoreboard;
   mailbox #(transaction) mon2sb1;
   bit[3:0] expected;
@@ -92,7 +93,7 @@ class scoreboard;
   endfunction
   task run();
 
-        transaction tr;//int val;
+        transaction tr;
 
         forever begin
           mon2sb1.get(tr);
@@ -117,33 +118,13 @@ class scoreboard;
             		expected = expected - 1;
     		end
 		end
-          /*if(tr.rst)
-            expected =0;
-          else if(tr.enable) begin
-            if(tr.up_down) 
-              expected = expected + 1;
-                else
-                    expected = expected - 1;
-            end
-            // Comparison
-            if(tr.count !== expected)
-                $error("Mismatch! Expected=%0d Got=%0d", expected, tr.count);
-            else
-                $display("PASS Expected=%0d Got=%0d", expected, tr.count);
-            end*/
-
     endtask
-
 endclass
+// Top module
 module tb;
-
 	logic clk;
-//logic rst;
-
 	always #5 clk = ~clk;
-
 	counter_if vif(clk);
-
 	up_down_counter dut(
     	.clk(clk),
     	.rst(vif.rst),
@@ -201,10 +182,11 @@ module tb;
   		#5000;
   		$display("Simulation completed");
   		$display("Functional Coverage = %0.2f %%", cg1.get_coverage());
+		//Individual coverage 
       	$display("Enable coverage    = %0.2f%%",cg1.cp_enable.get_coverage());
 		$display("Up/Down coverage   = %0.2f%%",cg1.cp_updown.get_coverage());
-      	$display("Count coverage     = %0.2f%%", cg1.cp_count.get_coverage());         			$display("Cross coverage=%0.2f%%" ,cg1.cp_cross.get_coverage());
+      	$display("Count coverage     = %0.2f%%", cg1.cp_count.get_coverage());         			
+		$display("Cross coverage=%0.2f%%" ,cg1.cp_cross.get_coverage());
   		$finish;
 	end
-
 endmodule
