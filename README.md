@@ -138,7 +138,6 @@ This project demonstrates several important **Design Verification concepts**:
 ---
 
 ## 👩‍💻 Author
-
 **Ahalya S Kumar** 
 Design Verification Engineer  
 SystemVerilog | SVA | Functional Coverage | UVM (Learning)
