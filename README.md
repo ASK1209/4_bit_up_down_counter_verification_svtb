@@ -147,8 +147,6 @@ Assertions: No failures
 
 ## Author
 
-> Replace this section with your name, university/organization, and LinkedIn/contact if desired.
-
 ```
 Name   : Ahalya S Kumar
 Email  : 12091998ask@gmail.com
