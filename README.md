@@ -138,7 +138,9 @@ This project demonstrates several important **Design Verification concepts**:
 ---
 ## 👩‍💻 Author
 
-**Ahalya S Kumar**
+**Ahalya Sivakumar**
+
 Design Verification Engineer
+
 SystemVerilog | Assertions | Functional Coverage | UVM (Learning)
 
