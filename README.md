@@ -138,7 +138,7 @@ This project demonstrates several important **Design Verification concepts**:
 ---
 ## 👩‍💻 Author
 
-**Ahalya Sivakumar**
+**Ahalya S Kumar**
 
 Design Verification Engineer
 
