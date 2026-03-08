@@ -1,6 +1,6 @@
 # Up/Down Counter Verification Project - SVTB
 
-A **SystemVerilog verification environment** for a **4-bit Up/Down Counter**, implemented and simulated on **EDA Playground** using **Aldec Riviera Pro**.
+A **SystemVerilog class-based verification environment** for a **4-bit Up/Down Counter**, implemented and simulated on **EDA Playground** using **Aldec Riviera Pro**.
 
 ## 🚀 Quick Run
 
