@@ -132,6 +132,57 @@ module tb;
     	.up_down(vif.up_down),
     	.count(vif.count)
 	);
+	//Assertions
+  //  1. When reset is high, count must be 0
+	property reset_check;
+    	@(posedge clk) vif.rst |-> (vif.count == 0);
+	endproperty
+	assert property(reset_check)
+    else $error("ASSERTION FAILED: Reset check - count=%0d", vif.count);
+
+// 2. When enable is low, count must not change
+	property enable_check;
+    	@(posedge clk) (!vif.enable && !vif.rst) |=> $stable(vif.count);
+	endproperty
+  	assert property(enable_check)
+     else $error("ASSERTION FAILED: Enable check - count changed when disabled");
+
+//  3. When counting up, next count must be current+1 (except wrap)
+	property count_up_check;
+    	@(posedge clk) (vif.enable && vif.up_down && !vif.rst && vif.count != 15)
+        	|=> (vif.count == ($past(vif.count) + 1));
+	endproperty
+	assert property(count_up_check)
+    	else $error("ASSERTION FAILED: Count up - Expected=%0d Got=%0d",
+                	$past(vif.count)+1, vif.count);
+
+//  4. When counting down, next count must be current-1 (except wrap)
+	property count_down_check;
+    	@(posedge clk) (vif.enable && !vif.up_down && !vif.rst && vif.count != 0)
+        	|=> (vif.count == ($past(vif.count) - 1));
+	endproperty
+	assert property(count_down_check)
+    	else $error("ASSERTION FAILED: Count down - Expected=%0d Got=%0d",
+                	$past(vif.count)-1, vif.count);
+
+//  5. Wrap up check: 15 -> 0
+	property wrap_up_check;
+    	@(posedge clk) (vif.enable && vif.up_down && !vif.rst && vif.count == 15)
+        	|=> (vif.count == 0);
+	endproperty
+	assert property(wrap_up_check)
+      else $error("ASSERTION FAILED: Wrap up check - Expected=0 Got=%0d", vif.count);
+
+  // 6. Wrap down check: 0 -> 15
+	property wrap_down_check;
+    	@(posedge clk) (vif.enable && !vif.up_down && !vif.rst && vif.count == 0)
+        	|=> (vif.count == 15);
+	endproperty
+	assert property(wrap_down_check)
+    	else $error("ASSERTION FAILED: Wrap down check - Expected=15 Got=%0d", vif.count);
+    cover property(reset_check)     $display("COVER: Reset check hit");
+	cover property(wrap_up_check)   $display("COVER: Wrap up hit");
+	cover property(wrap_down_check) $display("COVER: Wrap down hit");
   // Functional Coverage
   	covergroup counter_cg@(posedge clk);
 
